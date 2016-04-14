@@ -41,6 +41,18 @@ RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/c
 RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
 RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
 RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
+RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
+
+
+RUN apt-get update && apt-get install -y \
+    ros-jade-camera-info-manager \
+    ros-jade-image-proc \
+    libdc1394-22-dev \ 
+    libdc1394-22 \
+    ros-jade-driver-base  \
+    ros-jade-camera-info-manager \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # RUN echo "pushd ~/catkin_ws && catkin_make && source devel/setup.bash && popd" >> /ros_entrypoint.sh
 
