@@ -59,9 +59,14 @@ RUN apt-get update && apt-get install -y \
 RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
 
 
+#RUN /bin/sed -i \
+#    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a catkin_make -C ~/catkin_ws\nsource "\/home\/root\/catkin_ws\/devel\/setup.bash"'  \
+#    /ros_entrypoint.sh
+
 RUN /bin/sed -i \
-    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a catkin_make -C ~/catkin_ws\nsource "\/home\/root\/catkin_ws\/devel\/setup.bash"'  \
+    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"'  \
     /ros_entrypoint.sh
+
 
 # RUN echo "catkin_make -C ~/catkin_ws" >> /ros_entrypoint.sh
 # RUN echo "source /home/root/catkin_ws/devel/setup.bash" >> /ros_entrypoint.sh
