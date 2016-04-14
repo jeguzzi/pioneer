@@ -51,6 +51,7 @@ RUN apt-get update && apt-get install -y \
     libdc1394-22 \
     ros-jade-driver-base  \
     ros-jade-camera-info-manager \
+    ros-jade-image-transport-plugins \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -71,6 +72,6 @@ RUN /bin/sed -i \
 # RUN echo "catkin_make -C ~/catkin_ws" >> /ros_entrypoint.sh
 # RUN echo "source /home/root/catkin_ws/devel/setup.bash" >> /ros_entrypoint.sh
 
-# COPY rules/* /etc/udev/rules.d/
+COPY rules/* /etc/udev/rules.d/
 
 # VOLUME /home/root/catkin_ws/src
