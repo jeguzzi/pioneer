@@ -54,6 +54,7 @@ RUN apt-get update && apt-get install -y \
     ros-jade-image-transport-plugins \
     && rm -rf /var/lib/apt/lists/*
 
+RUN git clone https://github.com/robotpilot/myahrs_driver ~/catkin_ws/src/myahrs_driver
 
 # RUN echo "pushd ~/catkin_ws && catkin_make && source devel/setup.bash && popd" >> /ros_entrypoint.sh
 
@@ -65,13 +66,13 @@ RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
 #    /ros_entrypoint.sh
 
 RUN /bin/sed -i \
-    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"'  \
+    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
     /ros_entrypoint.sh
 
 
 # RUN echo "catkin_make -C ~/catkin_ws" >> /ros_entrypoint.sh
 # RUN echo "source /home/root/catkin_ws/devel/setup.bash" >> /ros_entrypoint.sh
 
-COPY rules/* /etc/udev/rules.d/
+# COPY rules/* /etc/udev/rules.d/
 
 # VOLUME /home/root/catkin_ws/src
