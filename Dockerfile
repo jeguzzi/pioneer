@@ -54,7 +54,7 @@ RUN apt-get update && apt-get install -y \
     ros-jade-image-transport-plugins \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/robotpilot/myahrs_driver ~/catkin_ws/src/myahrs_driver
+RUN git clone https://github.com/jeguzzi/myahrs_driver ~/catkin_ws/src/myahrs_driver
 
 # RUN echo "pushd ~/catkin_ws && catkin_make && source devel/setup.bash && popd" >> /ros_entrypoint.sh
 

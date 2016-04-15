@@ -8,3 +8,9 @@ jeguzzi/pioneer:dev'
 
 alias prun_ros='docker run -it --rm -v /tmp/env:/env -v $HOST_HOME/catkin_ws/src:/home/root/catkin_ws/src:ro \
 --privileged --net=host jeguzzi/pioneer:dev'
+
+alias pioneer_core='docker run -it --rm -v /tmp/env:/env -v $HOST_HOME/catkin_ws/src:/home/root/catkin_ws/src:ro \
+--privileged --net=host jeguzzi/pioneer:dev roslaunch p2os_launch pioneer2_master.launch'
+
+alias pioneer_loc='docker run -it --rm -v /tmp/env:/env -v $HOST_HOME/catkin_ws/src:/home/root/catkin_ws/src:ro \
+--privileged --net=host jeguzzi/pioneer:dev roslaunch pioneer_outdoor robot.launch'
