@@ -1,0 +1,8 @@
+ACTION=="add", KERNEL=="ttyUSB[0-9]*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", KERNELS=="1-6.4", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="0666", SYMLINK+="myrobot", RUN+="/home/idsia/set_env.sh robot"
+#TODO make the remove rule working
+#ACTION=="remove", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", RUN+="/home/idsia/set_env.sh robot"
+
+
+
+
+

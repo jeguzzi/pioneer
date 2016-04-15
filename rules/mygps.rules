@@ -1,0 +1,4 @@
+KERNEL=="ttyUSB[0-9]*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", KERNELS=="4-1", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="mygps%n",RUN+="/lib/udev/gpsd.hotplug"
+
+
+
