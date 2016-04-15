@@ -69,6 +69,12 @@ RUN /bin/sed -i \
     '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
     /ros_entrypoint.sh
 
+RUN apt-get update && apt-get install -y \
+    ros-jade-hokuyo-node \
+    && rm -rf /var/lib/apt/lists/*
+
+
+
 
 # RUN echo "catkin_make -C ~/catkin_ws" >> /ros_entrypoint.sh
 # RUN echo "source /home/root/catkin_ws/devel/setup.bash" >> /ros_entrypoint.sh
