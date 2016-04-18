@@ -39,12 +39,13 @@ RUN apt-get update && apt-get install -y \
     libdc1394-22-dev \
     libdc1394-22 \
     libaria2 \
+    libaria-dev \
     ros-jade-camera-info-manager \
     ros-jade-image-proc \
     ros-jade-driver-base  \
     ros-jade-camera-info-manager \
     ros-jade-image-transport-plugins \
-    ros-jade-hokuyo-node
+    ros-jade-hokuyo-node \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/root/catkin_ws/src
