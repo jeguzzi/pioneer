@@ -67,6 +67,7 @@ RUN /bin/sed -i \
 
 RUN apt-get update && apt-get install -y \
     python-pyproj \
+    ros-jade-multimaster-fkie \
     && rm -rf /var/lib/apt/lists/*
 
 
