@@ -2,7 +2,7 @@
 
 FROM ros:jade-robot
 
-MAINTAINER Jerome Guzzi jerome@idsia.ch
+MAINTAINER Jerome Guzzi jerome@idsia.chlaunch/camera.launch
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -27,38 +27,40 @@ RUN apt-get update && apt-get install -y \
 # RUN adduser ros sudo
 USER root
 
-RUN HOME=/home/root
+# RUN HOME=/home/root
 
 ENV HOME /home/root
 
 RUN /bin/bash -c '. /opt/ros/jade/setup.bash; rosdep init; rosdep update'
 
-RUN mkdir -p /home/root/catkin_ws/src
-RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src'
-
 # RUN /bin/bash -c '. /opt/ros/jade/setup.bash; cd /home/ros/workspace; catkin_make'
 
-RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
-RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
-RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
-RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
-
-
 RUN apt-get update && apt-get install -y \
+    libdc1394-22-dev \
+    libdc1394-22 \
+    libaria2 \
     ros-jade-camera-info-manager \
     ros-jade-image-proc \
-    libdc1394-22-dev \ 
-    libdc1394-22 \
     ros-jade-driver-base  \
     ros-jade-camera-info-manager \
     ros-jade-image-transport-plugins \
+    ros-jade-hokuyo-node
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/jeguzzi/myahrs_driver ~/catkin_ws/src/myahrs_driver
+RUN mkdir -p /home/root/catkin_ws/src
+RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src'
+
+RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
+RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
+RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
+RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
+RUN git clone https://github.com/jeguzzi/rosaria.git ~/catkin_ws/src/rosaria
+
+RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
 
 # RUN echo "pushd ~/catkin_ws && catkin_make && source devel/setup.bash && popd" >> /ros_entrypoint.sh
 
-RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
+
 
 
 #RUN /bin/sed -i \
@@ -69,11 +71,14 @@ RUN /bin/sed -i \
     '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
     /ros_entrypoint.sh
 
-RUN apt-get update && apt-get install -y \
-    ros-jade-hokuyo-node \
-    && rm -rf /var/lib/apt/lists/*
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
 
 
+RUN echo 'INVALIDATE_CACHE'
+
+RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
+RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
 
 
 # RUN echo "catkin_make -C ~/catkin_ws" >> /ros_entrypoint.sh
