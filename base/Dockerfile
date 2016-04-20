@@ -49,6 +49,15 @@ RUN /bin/bash -c '. /opt/ros/jade/setup.bash; rosdep init; rosdep update'
 # RUN apt-get update && apt-get install -y \
 #     && rm -rf /var/lib/apt/lists/*
 
+
+RUN apt-get update && apt-get install -y \
+    python-pyproj \
+    ros-jade-multimaster-fkie \
+    ros-jade-rqt-gui-cpp \
+    libx264-dev \ 
+    libx264-142 \   
+    && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir -p /home/root/catkin_ws/src
 RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src'
 
@@ -58,6 +67,7 @@ RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/came
 RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
 RUN git clone https://github.com/jeguzzi/rosaria.git ~/catkin_ws/src/rosaria
 RUN git clone https://github.com/jeguzzi/myahrs_driver.git ~/catkin_ws/src/myahrs_driver
+RUN git clone https://github.com/AIS-Bonn/nimbro_network.git ~/catkin_ws/src/nimbro_network
 
 RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
 
@@ -65,10 +75,6 @@ RUN /bin/sed -i \
     '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
     /ros_entrypoint.sh
 
-RUN apt-get update && apt-get install -y \
-    python-pyproj \
-    ros-jade-multimaster-fkie \
-    && rm -rf /var/lib/apt/lists/*
 
 
 
