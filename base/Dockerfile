@@ -61,6 +61,8 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /home/root/catkin_ws/src
 RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src'
 
+RUN git clone -b jade https://github.com/ccny-ros-pkg/imu_tools.git ~/catkin_ws/src/imu_tools
+RUN touch ~/catkin_ws/src/imu_tools/rviz_imu_plugin/CATKIN_IGNORE
 RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
 RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
 RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
@@ -76,7 +78,8 @@ RUN /bin/sed -i \
     /ros_entrypoint.sh
 
 
-
+RUN mkdir -p /env
+RUN touch /env/t.env
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
 CMD ["bash"]
