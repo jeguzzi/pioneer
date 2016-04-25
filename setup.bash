@@ -23,6 +23,8 @@ alias pioneer_i_localization='docker run -it --rm $CONFIG jeguzzi/pioneer:dev ro
 
 alias pioneer_control='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor indoor_navigation.launch sick:=1'
 
-alias pioneer_network='docker run -it --rm $CONFIG jeguzzi/pioneer:base roslaunch pioneer_outdoor network.launch nimbro:=1 remote_port:=10002'
+alias pioneer_network='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor network.launch nimbro:=1 remote_port:=10002'
+
+alias pioneer_lcm='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor lcm.launch'
 
 alias pioneer_it='docker run -it --rm $CONFIG jeguzzi/pioneer:base'
