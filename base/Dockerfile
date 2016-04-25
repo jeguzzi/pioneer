@@ -81,5 +81,22 @@ RUN /bin/sed -i \
 RUN mkdir -p /env
 RUN touch /env/t.env
 
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    autoconf \
+    automake \
+    autopoint \
+    libglib2.0-dev \
+    libtool \
+    python-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+
+RUN mkdir -p /tmp
+RUN git clone https://github.com/lcm-proj/lcm /tmp/lcm
+RUN /bin/bash -c 'pushd /tmp/lcm; ./bootstrap.sh; ./configure --prefix=/usr; make; make install; popd; rm -r /tmp/lcm'
+
+
 ENTRYPOINT ["/ros_entrypoint.sh"]
 CMD ["bash"]
