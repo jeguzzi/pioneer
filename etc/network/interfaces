@@ -1,0 +1,21 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+auto wlan0
+iface wlan0 inet static
+      up /etc/init.d/hostapd start
+      up /etc/init.d/dnsmasq start
+      down /etc/init.d/hostapd stop
+      down /etc/init.d/dnsmasq stop
+      address 192.168.1.1
+      netmask 255.255.255.0
+      nameserver 192.168.1.1
+      network 192.168.1.0
+
+iface drone_wifi inet dhcp
+   wpa-ssid drone_wifi
+   wpa-psk 0e44d33807dc67fd502dd1d8ae6cefeb4f8f65bcbff2e13e230fc77a8804d894

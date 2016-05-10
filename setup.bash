@@ -33,6 +33,7 @@ alias pioneer_network='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch
 alias pioneer_lcm='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor lcm.launch'
 
 alias pioneer_it='docker run -it --rm $CONFIG jeguzzi/pioneer:dev'
+alias pioneer_itm='docker run -it --rm $CONFIG -v /var/run/docker.sock:/var/run/docker.sock jeguzzi/pioneer:monitor'
 
 
 alias pioneer_monitor='docker run -d --restart=always $CONFIG jeguzzi/pioneer:monitor roslaunch pioneer_outdoor monitor.launch'
