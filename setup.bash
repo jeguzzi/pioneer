@@ -17,8 +17,8 @@ alias prun_ros='docker run -it --rm -v /tmp/env:/env -v $HOST_HOME/catkin_ws/src
 alias pioneer_core='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor $HOSTNAME.launch'
 
 
-alias pioneer_core_robot='docker run -d --restart=always  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor core_robot.launch p2os:=1'
 
+alias ros_master='docker run -d --restart=always --name roscore  $CONFIG jeguzzi/pioneer:dev roscore'
 
 alias pioneer_core_auto='docker run -d --restart=always $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor $HOSTNAME.launch'
 
@@ -30,10 +30,25 @@ alias pioneer_control='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch
 
 alias pioneer_network='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor network.launch nimbro:=1'
 
-alias pioneer_lcm='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor lcm.launch'
+
 
 alias pioneer_it='docker run -it --rm $CONFIG jeguzzi/pioneer:dev'
 alias pioneer_itm='docker run -it --rm $CONFIG -v /var/run/docker.sock:/var/run/docker.sock jeguzzi/pioneer:monitor'
 
 
-alias pioneer_monitor='docker run -d --restart=always $CONFIG jeguzzi/pioneer:monitor roslaunch pioneer_outdoor monitor.launch'
+
+alias pioneer_camera='docker run -d  --name camera  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor camera-core.launch quality:=15 --wait'
+alias pioneer_laser='docker run -d  --name laser  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor laser.launch sick:=1 --wait'
+alias pioneer_gps='docker run -d  --name gps  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor gps-core.launch --wait'
+
+alias pioneer_lcm='docker run -d $CONFIG --name lcm jeguzzi/pioneer:dev roslaunch pioneer_outdoor lcm.launch'
+
+alias pioneer_core_core='docker run -d --restart=always --name core  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor core-core.launch model:=$HOSTNAME'
+alias pioneer_core_robot='docker run -d --restart=always --name p3at  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor core_robot.launch p2os:=1 --wait'
+alias pioneer_monitor='docker run -d --restart=always --name ui $CONFIG -v /var/run/docker.sock:/var/run/docker.sock jeguzzi/pioneer:monitor roslaunch pioneer_outdoor monitor.launch --wait'
+
+alias pioneer_video='docker run -d --restart=always --name video_stream $CONFIG -v /var/run/docker.sock:/var/run/docker.sock jeguzzi/pioneer:monitor roslaunch pioneer_outdoor video.launch --wait'
+
+alias pioneer_ahrs='docker run -d --restart=always --name ahrs  $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor ahrs-core.launch --wait'
+
+alias pioneer_odom='docker run -d --restart=always --name odom $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor odom_localization.launch --wait'

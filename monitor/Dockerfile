@@ -1,7 +1,7 @@
 
 # Monitoring
 
-FROM jeguzzi/pioneer:base
+FROM jeguzzi/pioneer:dev
 
 MAINTAINER Jerome Guzzi jerome@idsia.ch
 
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     python-psutil \
     python-netifaces \
     python-pip \
-    && rm -rf /var/lib/apt/lists/*
+    ros-jade-web-video-server \
+&& rm -rf /var/lib/apt/lists/*
 
 RUN pip install docker-py
