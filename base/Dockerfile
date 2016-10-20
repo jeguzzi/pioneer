@@ -58,29 +58,18 @@ RUN apt-get update && apt-get install -y \
     libx264-142 \   
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /home/root/catkin_ws/src
-RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src'
 
-RUN git clone -b jade https://github.com/ccny-ros-pkg/imu_tools.git ~/catkin_ws/src/imu_tools
-RUN touch ~/catkin_ws/src/imu_tools/rviz_imu_plugin/CATKIN_IGNORE
-RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
-RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
-RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
-RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
-RUN git clone https://github.com/jeguzzi/rosaria.git ~/catkin_ws/src/rosaria
-RUN git clone https://github.com/jeguzzi/myahrs_driver.git ~/catkin_ws/src/myahrs_driver
-RUN git clone https://github.com/AIS-Bonn/nimbro_network.git ~/catkin_ws/src/nimbro_network
+RUN apt-get update && apt-get install -y \
+    lm-sensors \
+    ros-jade-rosbridge-server \
+    ros-jade-roswww \
+    python-psutil \
+    python-netifaces \
+    python-pip \
+    ros-jade-web-video-server \
+&& rm -rf /var/lib/apt/lists/*
 
-RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_make -C ~/catkin_ws'
-
-RUN /bin/sed -i \
-    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
-    /ros_entrypoint.sh
-
-
-RUN mkdir -p /env
-RUN touch /env/t.env
-
+RUN pip install docker-py
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -90,12 +79,40 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-dev \
     libtool \
     python-dev \
+    python-catkin-tools \
     && rm -rf /var/lib/apt/lists/*
 
 
 RUN mkdir -p /tmp
 RUN git clone https://github.com/lcm-proj/lcm /tmp/lcm
 RUN /bin/bash -c 'pushd /tmp/lcm; ./bootstrap.sh; ./configure --prefix=/usr; make; make install; popd; rm -r /tmp/lcm'
+
+RUN mkdir -p /home/root/catkin_ws/src
+
+RUN git clone -b jade https://github.com/ccny-ros-pkg/imu_tools.git ~/catkin_ws/src/imu_tools
+RUN touch ~/catkin_ws/src/imu_tools/rviz_imu_plugin/CATKIN_IGNORE
+RUN git clone https://github.com/jeguzzi/p2os ~/catkin_ws/src/p2os
+RUN git clone https://github.com/jeguzzi/gps_umd.git ~/catkin_ws/src/gps_umd
+RUN git clone https://github.com/ros-drivers/camera1394.git ~/catkin_ws/src/camera1394.git
+RUN git clone https://github.com/jeguzzi/pioneer_outdoor.git ~/catkin_ws/src/pioneer_outdoor
+RUN git clone https://github.com/jeguzzi/rosaria.git ~/catkin_ws/src/rosaria
+RUN git clone https://github.com/jeguzzi/myahrs_driver.git ~/catkin_ws/src/myahrs_driver
+RUN git clone https://github.com/jeguzzi/nimbro_network.git ~/catkin_ws/src/nimbro_network
+
+RUN /bin/bash -c '. /opt/ros/jade/setup.bash; catkin_init_workspace /home/root/catkin_ws/src; catkin_make -C /home/root/catkin_ws;'
+
+
+
+#RUN /bin/bash -c 'pushd ~/catkin_ws; catkin init; catkin config --extend /opt/ros/jade --blacklist rviz_imu_plugin; catkin build; popd;'
+
+
+RUN mkdir -p /env
+RUN touch /env/t.env
+
+RUN /bin/sed -i \
+    '/source "\/opt\/ros\/$ROS_DISTRO\/setup.bash"/a source "\/home\/root\/catkin_ws\/devel\/setup.bash"\nset -a\nfor f in /env/*.env; do source $f; done\nset +a'  \
+    /ros_entrypoint.sh
+
 
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
