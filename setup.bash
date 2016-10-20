@@ -30,7 +30,7 @@ alias pioneer_control='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch
 
 alias pioneer_control_odom='docker run -d --name navigation $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor navigation.launch sick:=0'
 
-alias pioneer_network='docker run -it --rm $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor network.launch nimbro:=1'
+alias pioneer_network='docker run -d --name network $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor network.launch nimbro:=1 nimbro_send:=false'
 
 
 
