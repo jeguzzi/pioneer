@@ -1,6 +1,6 @@
 #!/usr/bin/env
 
-HOST_HOME=`pwd`
+HOST_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 V="-v /tmp/env:/env:ro -v $HOST_HOME/catkin_ws/src/pioneer_outdoor:/home/root/catkin_ws/src/pioneer_outdoor:ro -v $HOST_HOME/settings/$HOSTNAME.env:/env2/settings.env:ro"
