@@ -57,3 +57,4 @@ alias pioneer_odom='docker run -d --restart=always --name odom $CONFIG jeguzzi/p
 alias pioneer_odom_compass='docker run -d --name odom_compass $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor odom_localization.launch compass:=true --wait'
 alias pioneer_loc_idsia='docker run -d  --name localize_idsia $CONFIG jeguzzi/pioneer:dev roslaunch pioneer_outdoor idsia.launch --wait'
 
+alias pioneer_gmapping='docker create  --name gmapping $CONFIG jeguzzi/pioneer:gmapping roslaunch pioneer_outdoor mapping.launch'
